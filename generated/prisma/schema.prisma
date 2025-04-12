@@ -14,11 +14,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id      Int    @id @default(autoincrement())
-  nome    String
-  email   String @unique
-  bairro  String
-  celular String
-  uid     String @unique
+model usuario {
+  id              Int      @id @default(autoincrement())
+  nome            String
+  email           String   @unique
+  bairro          String
+  celular         String
+  uid             String   @unique
+  dt_cadastro     DateTime @default(now())
+  dt_atualizacao  DateTime @updatedAt
+  uid_cadastro    String
+  uid_atualizacao String?
 }

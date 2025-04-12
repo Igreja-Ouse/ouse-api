@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import * as firebaseAdmin from 'firebase-admin';
-import { CreateRequest } from "firebase-admin/lib/auth/auth-config";
+import { CreateRequest, UpdateRequest } from "firebase-admin/lib/auth/auth-config";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import { FireBaseConfigService } from "./firebase-config.service";
 import axios from "axios";
@@ -14,6 +14,10 @@ export class FirebaseService{
 
     constructor(firebaseConfig: FireBaseConfigService) {
         this.apiKey = firebaseConfig.apiKey;
+    }
+
+    async getUserByUid(uid: string): Promise<UserRecord> {
+        return await firebaseAdmin.auth().getUser(uid).catch(this.handleFirebaseAuthError) as UserRecord;
     }
 
     async createUser(proprs: CreateRequest): Promise<UserRecord> {
@@ -33,6 +37,15 @@ export class FirebaseService{
         return await this.sendPostRequest(url, { email, password, returnSecureToken: true }).catch(this.handleRestApiError);
     }
 
+    async updateUser(uid: string, userData: UpdateRequest): Promise<UserRecord> {
+        try {
+            return await firebaseAdmin.auth().updateUser(uid, userData).catch(this.handleFirebaseAuthError) as UserRecord;
+        } catch (error) {
+            this.handleFirebaseAuthError(error);
+            throw error; 
+        }
+    }
+
     async refreshAuthToken(refreshToken: string) {
         const {
             id_token: idToken,
@@ -50,6 +63,19 @@ export class FirebaseService{
         const url = `https://securetoken.googleapis.com/v1/token?key=${this.apiKey}`;
         return await this.sendPostRequest(url, { grant_type: 'refresh_token', refresh_token: refreshToken });
     }
+
+    async sendPasswordResetEmail(email: string): Promise<void> {
+        try {
+          const url = `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${this.apiKey}`;
+          await this.sendPostRequest(url, {
+            requestType: 'PASSWORD_RESET',
+            email: email
+          });
+        } catch (error) {
+          this.handleRestApiError(error);
+          throw error;
+        }
+      }
 
     private async sendPostRequest(url: string, data: any) {
         const response = await axios.post(url, data, { headers: { 'Content-Type': 'application/json' } });

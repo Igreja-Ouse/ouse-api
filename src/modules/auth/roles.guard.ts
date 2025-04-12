@@ -13,7 +13,7 @@ export function RolesGuard(...allowedRoles: string[]): Type<CanActivate> {
             const Request = context.switchToHttp().getRequest<Request>();
     
             const authHeader = Request.headers['authorization'];
-    
+   
             if(!authHeader) return false;
     
             const [bearer, token] = authHeader.split(' ');

@@ -1,24 +1,22 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { UserFirebaseDto } from "./user-firebase.dto";
-import { IsNotEmpty, IsString, ValidateNested } from "class-validator";
-import { Type } from "class-transformer";
+import { UserFirebaseResponseDto } from "./user-firebase-response.dto";
 
-
-export class UserDto {
-
-    @ApiProperty({ description: 'Celular do usuário' })
-    @IsString()
-    @IsNotEmpty()
+export class UserDto{
+    
+    id: string;
+    name: string;
+    email: string;
+    password: string;
     celular: string;
-
-    @ApiProperty({ description: 'Bairro do usuário' })
-    @IsString()
-    @IsNotEmpty()
     bairro: string;
+    uid: string;
+    dt_cadastro: Date;
+    dt_atualizacao: Date;
+    uid_cadastro?: Date;
+    uid_atualizacao: boolean;
 
-    @ApiProperty({ description: 'Celular do usuário' })
-    @ValidateNested()
-    @Type(() => UserFirebaseDto)
-    userFirebase: UserFirebaseDto;
+    usuarioFirebase?: UserFirebaseResponseDto;
 
+    constructor(partial: Partial<UserDto>) {
+        Object.assign(this, partial);
+    }
 }

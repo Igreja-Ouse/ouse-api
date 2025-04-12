@@ -23,10 +23,4 @@ export class UserFirebaseDto {
     @Length(8, 20)
     password: string;
 
-    @ApiProperty({ description: 'Cargo do usuário', example: ['admin, pastor, membro'] })
-    @IsArray()
-    @IsOptional()
-    @IsString({ each: true })
-    roles?: string[];
-
 }
