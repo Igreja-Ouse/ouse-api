@@ -46,7 +46,7 @@ export class UserMapper {
     response.uid = uid;
     response.celular = userDto.celular;
     response.bairro = userDto.bairro;
-    
+
     response.usuarioFirebase = new UserFirebaseResponseDto();
 
     if (userDto.usuarioFirebase) {

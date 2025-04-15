@@ -4,32 +4,32 @@ export class PagedList<T> {
    * Lista de itens da página atual
    */
   items: T[];
-  
+
   /**
    * Número total de itens em todas as páginas
    */
   totalCount: number;
-  
+
   /**
    * Página atual
    */
   currentPage: number;
-  
+
   /**
    * Número de itens por página
    */
   pageSize: number;
-  
+
   /**
    * Total de páginas
    */
   totalPages: number;
-  
+
   /**
    * Indica se há uma página anterior
    */
   hasPreviousPage: boolean;
-  
+
   /**
    * Indica se há uma próxima página
    */
@@ -39,13 +39,13 @@ export class PagedList<T> {
     items: T[],
     totalCount: number,
     currentPage: number,
-    pageSize: number
+    pageSize: number,
   ) {
     this.items = items;
     this.totalCount = totalCount;
     this.currentPage = currentPage;
     this.pageSize = pageSize;
-    
+
     // Cálculos derivados
     this.totalPages = Math.ceil(totalCount / pageSize);
     this.hasPreviousPage = currentPage > 1;
@@ -60,7 +60,7 @@ export class PagedList<T> {
       result.data,
       result.meta.total,
       result.meta.currentPage,
-      result.meta.perPage
+      result.meta.perPage,
     );
   }
 
@@ -76,12 +76,12 @@ export class PagedList<T> {
    */
   async mapAsync<R>(mapFn: (item: T) => Promise<R>): Promise<PagedList<R>> {
     const mappedItems = await Promise.all(this.items.map(mapFn));
-    
+
     return new PagedList<R>(
       mappedItems,
       this.totalCount,
       this.currentPage,
-      this.pageSize
+      this.pageSize,
     );
   }
 
@@ -90,12 +90,12 @@ export class PagedList<T> {
    */
   map<R>(mapFn: (item: T) => R): PagedList<R> {
     const mappedItems = this.items.map(mapFn);
-    
+
     return new PagedList<R>(
       mappedItems,
       this.totalCount,
       this.currentPage,
-      this.pageSize
+      this.pageSize,
     );
   }
 }

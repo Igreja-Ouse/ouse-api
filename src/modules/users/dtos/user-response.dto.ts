@@ -1,9 +1,8 @@
-import { UserFirebaseResponseDto } from "./user-firebase-response.dto";
+import { UserFirebaseResponseDto } from './user-firebase-response.dto';
 
-export class UserResponseDto{
-    celular: string;
-    bairro: string;
-    uid: string;
-    usuarioFirebase: UserFirebaseResponseDto;
-
+export class UserResponseDto {
+  celular: string;
+  bairro: string;
+  uid: string;
+  usuarioFirebase: UserFirebaseResponseDto;
 }

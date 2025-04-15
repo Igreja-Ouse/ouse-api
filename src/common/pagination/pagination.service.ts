@@ -15,17 +15,12 @@ export class PaginationService {
     model: any,
     params: PaginationDto,
     whereCondition?: any,
-    include?: any
+    include?: any,
   ): Promise<PagedList<T>> {
-    const { 
-      page = 1, 
-      pageSize = 10, 
-      sortBy, 
-      sortOrder = 'asc'
-    } = params;
-    
+    const { page = 1, pageSize = 10, sortBy, sortOrder = 'asc' } = params;
+
     const skip = (page - 1) * pageSize;
-    
+
     // Configurar ordenação se fornecida
     const orderBy = sortBy ? { [sortBy]: sortOrder } : undefined;
 
@@ -33,17 +28,17 @@ export class PaginationService {
     const [totalCount, items] = await Promise.all([
       // Contar todos os registros que correspondem ao filtro
       model.count({ where: whereCondition }),
-      
+
       // Buscar a página atual de itens
       model.findMany({
         where: whereCondition,
         skip,
         take: pageSize,
         orderBy,
-        include
-      })
+        include,
+      }),
     ]);
-    
+
     return new PagedList<T>(items, totalCount, page, pageSize);
   }
 }

@@ -10,7 +10,8 @@ import { PrismaService } from './modules/prisma/prisma.service';
     ConfigModule.forRoot({ isGlobal: true }),
     FirebaseModule.forRoot(),
     AuthModule,
-    UsersModule],
+    UsersModule,
+  ],
   controllers: [],
   providers: [PrismaService],
 })

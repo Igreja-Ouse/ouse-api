@@ -22,7 +22,11 @@ export class PaginationDto {
   @IsString()
   sortBy?: string;
 
-  @ApiPropertyOptional({ description: 'Direção da ordenação', enum: ['asc', 'desc'], default: 'asc' })
+  @ApiPropertyOptional({
+    description: 'Direção da ordenação',
+    enum: ['asc', 'desc'],
+    default: 'asc',
+  })
   @IsOptional()
   @IsString()
   @IsIn(['asc', 'desc'])
