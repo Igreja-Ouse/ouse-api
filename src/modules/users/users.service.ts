@@ -11,10 +11,10 @@ import { UserMapper } from 'src/common/mappers/user.mapper';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UpdateRolesDto } from './dtos/update-roles.dto';
 import { BaseResponse } from 'src/common/utils/base-response';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { PagedList } from 'src/common/pagination/paged-list';
 import { PaginationService } from 'src/common/pagination/pagination.service';
 import { ResetPasswordDto } from './dtos/reset-password.dto';
+import { UserFilter } from './dtos/user-filter.dto';
 
 @Injectable()
 export class UsersService {
@@ -26,34 +26,23 @@ export class UsersService {
   ) {}
 
   async getAll(
-    params: PaginationDto = {},
+    params: UserFilter = {},
   ): Promise<BaseResponse<PagedList<UserResponseDto>>> {
-    // Construir filtro se necessário
-    let where = {};
-    if (params.filter) {
-      where = {
-        OR: [
-          { nome: { contains: params.filter, mode: 'insensitive' } },
-          { email: { contains: params.filter, mode: 'insensitive' } },
-          { celular: { contains: params.filter, mode: 'insensitive' } },
-          { bairro: { contains: params.filter, mode: 'insensitive' } },
-        ],
-      };
-    }
+    // Construir filtro
+    const where = this.buildUserFilters(params);
 
-    // Usar o serviço de paginação
     const pagedList = await this.paginationService.paginate<any>(
       this.prismaService.usuario,
-      params,
+      { page: params.page, pageSize: params.pageSize, sortBy: params.sortBy, sortOrder: params.sortOrder },
       where,
     );
-
+    
     // Mapear usuários para incluir dados do Firebase
     const mappedPagedList = await pagedList.mapAsync(async (user) => {
       const firebaseUser = await this.firebaseService.getUserByUid(user.uid);
       return this.userMapper.toResponseDto(user, firebaseUser);
     });
-
+    
     return BaseResponse.success('', mappedPagedList);
   }
 
@@ -276,5 +265,51 @@ export class UsersService {
         email,
       },
     };
+  }
+
+  private buildUserFilters(params: UserFilter): any {
+    const conditions: any[] = [];
+    
+    // Filtros específicos por campo
+    if (params.nome) {
+      conditions.push({ nome: { contains: params.nome, mode: 'insensitive' } });
+    }
+    
+    if (params.email) {
+      conditions.push({ email: { contains: params.email, mode: 'insensitive' } });
+    }
+    
+    if (params.celular) {
+      conditions.push({ celular: { contains: params.celular, mode: 'insensitive' } });
+    }
+    
+    if (params.bairro) {
+      conditions.push({ bairro: { contains: params.bairro, mode: 'insensitive' } });
+    }
+    
+    // if (params.ativo !== undefined) {
+    //   conditions.push({ ativo: params.ativo });
+    // }
+    
+    // Filtro por papel (role)
+    // if (params.role) {
+    //   // Este filtro é mais complexo e depende de como você armazena roles
+    //   // Se estiver no banco de dados:
+    //   conditions.push({ roles: { has: params.role } });
+    //   // OU, se precisar consultar no Firebase, isso terá que ser feito depois
+    // }
+    
+    // Retorna objeto vazio se não houver condições
+    if (conditions.length === 0) {
+      return {};
+    }
+    
+    // Retorna a condição diretamente se for apenas uma
+    if (conditions.length === 1) {
+      return conditions[0];
+    }
+    
+    // Combina múltiplas condições com AND
+    return { AND: conditions };
   }
 }

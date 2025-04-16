@@ -17,10 +17,10 @@ export class PaginationDto {
   @Type(() => Number)
   pageSize?: number = 10;
 
-  @ApiPropertyOptional({ description: 'Campo para ordenação' })
+  @ApiPropertyOptional({ description: 'Campo para ordenação', default: 'nome' })
   @IsOptional()
   @IsString()
-  sortBy?: string;
+  sortBy?: string = 'nome';
 
   @ApiPropertyOptional({
     description: 'Direção da ordenação',
@@ -31,11 +31,6 @@ export class PaginationDto {
   @IsString()
   @IsIn(['asc', 'desc'])
   sortOrder?: 'asc' | 'desc' = 'asc';
-
-  @ApiPropertyOptional({ description: 'Filtro de texto para busca' })
-  @IsOptional()
-  @IsString()
-  filter?: string;
-
+     
   totalPages?: number = 0;
 }
