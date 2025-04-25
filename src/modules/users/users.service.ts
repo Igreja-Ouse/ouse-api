@@ -78,8 +78,7 @@ export class UsersService {
         bairro,
         nome: displayName,
         email,
-        uid: firebaseUser.uid,
-        uid_cadastro: firebaseUser.uid,
+        uid: firebaseUser.uid
       },
     });
 
