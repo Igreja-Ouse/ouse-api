@@ -5,8 +5,13 @@ import {
   Injectable,
   mixin,
   Type,
+  UnauthorizedException,
+  ForbiddenException
 } from '@nestjs/common';
 import { FirebaseService } from '../firebase/firebase.service';
+import { Request } from 'express';
+import { extractJwtFromRequest } from 'src/common/utils/extract-token';
+import { BaseResponse } from 'src/common/utils/base-response';
 
 export function RolesGuard(...allowedRoles: string[]): Type<CanActivate> {
   @Injectable()
@@ -14,20 +19,53 @@ export function RolesGuard(...allowedRoles: string[]): Type<CanActivate> {
     constructor(private readonly firebaseService: FirebaseService) {}
 
     async canActivate(context: ExecutionContext) {
-      const Request = context.switchToHttp().getRequest<Request>();
-
-      const authHeader = Request.headers['authorization'];
-
-      if (!authHeader) return false;
-
-      const [bearer, token] = authHeader.split(' ');
-      if (bearer !== 'Bearer' || !token) return false;
+      const request = context.switchToHttp().getRequest<Request>();
+      const response = context.switchToHttp().getResponse();
+      
+      const token = extractJwtFromRequest(request);
+      
+      if (!token) {
+        response.status(401).json(
+          BaseResponse.unauthorized('Autenticação necessária')
+        );
+        return false;
+      }
 
       try {
         const decodedToken = await this.firebaseService.verifyIdToken(token);
-        const userRoles = decodedToken.roles ?? [];
-        return allowedRoles.some((required) => userRoles.includes(required));
+        
+        request['user'] = decodedToken;
+        
+        const userRoles = decodedToken.roles || [];
+        
+        let rolesArray = userRoles;
+        if (typeof userRoles === 'string') {
+          try {
+            rolesArray = JSON.parse(userRoles);
+          } catch {
+            rolesArray = [userRoles]; 
+          }
+        } else if (!Array.isArray(userRoles)) {
+          rolesArray = [userRoles];
+        }
+        
+        const hasPermission = allowedRoles.some(role => 
+          Array.isArray(rolesArray) ? rolesArray.includes(role) : rolesArray === role
+        );
+        
+        if (!hasPermission) {
+          response.status(403).json(
+            BaseResponse.forbidden('Permissão negada')
+          );
+          return false;
+        }
+        
+        return true;
       } catch (error) {
+        console.error('Erro ao verificar token ou permissões:', error);
+        response.status(401).json(
+          BaseResponse.unauthorized('Token inválido')
+        );
         return false;
       }
     }

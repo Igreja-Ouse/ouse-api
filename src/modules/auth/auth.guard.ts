@@ -1,26 +1,25 @@
-import { Request } from './../../../node_modules/jwks-rsa/node_modules/@types/express-serve-static-core/index.d';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { FirebaseService } from '../firebase/firebase.service';
+import { Request } from 'express';
+import { extractJwtFromRequest } from 'src/common/utils/extract-token';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private readonly firebaseService: FirebaseService) {}
 
   async canActivate(context: ExecutionContext) {
-    const Request = context.switchToHttp().getRequest<Request>();
-
-    const authHeader = Request.headers['authorization'];
-
-    if (!authHeader) return false;
-
-    const [bearer, token] = authHeader.split(' ');
-    if (bearer !== 'Bearer' || !token) return false;
+    const request = context.switchToHttp().getRequest<Request>();
+    
+    const token = extractJwtFromRequest(request);
+    
+    if (!token) return false;
 
     try {
-      await this.firebaseService.verifyIdToken(token);
+      const decodedToken = await this.firebaseService.verifyIdToken(token);
+      request['user'] = decodedToken; 
       return true;
     } catch (error) {
+      console.error('Erro ao verificar token:', error);
       return false;
     }
   }

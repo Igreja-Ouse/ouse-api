@@ -126,7 +126,6 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   uid: 'uid',
   dt_cadastro: 'dt_cadastro',
   dt_atualizacao: 'dt_atualizacao',
-  uid_cadastro: 'uid_cadastro',
   uid_atualizacao: 'uid_atualizacao'
 };
 

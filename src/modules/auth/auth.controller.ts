@@ -1,16 +1,9 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Res, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
-import { IdToken } from 'src/common/utils/id-token.decorator';
+import { Response, Request } from 'express';
 import { AuthGuard } from './auth.guard';
+import { IdToken } from 'src/common/utils/id-token.decorator';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 
 @Controller('auth')
@@ -19,21 +12,28 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(200)
-  login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  async login(
+    @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) response: Response
+  ) {
+    return this.authService.login(loginDto, response);
   }
 
   @Post('logout')
-  @HttpCode(204)
-  @UseGuards(AuthGuard)
-  @ApiBearerAuth()
-  async logout(@IdToken() token: string) {
-    return this.authService.logout(token);
+  @HttpCode(200)
+  async logout(
+    @IdToken() token: string,
+    @Res({ passthrough: true }) response: Response
+  ) {
+    return this.authService.logout(token, response);
   }
 
   @Post('refresh-token')
   @HttpCode(200)
-  async refreshToken(@Body() dto: RefreshTokenDto) {
-    return this.authService.refreshAuthToken(dto.refreshToken);
+  async refreshToken(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response
+  ) {
+    return this.authService.refreshAuthToken(request, response);
   }
 }

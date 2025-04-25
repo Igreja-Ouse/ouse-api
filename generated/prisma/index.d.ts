@@ -898,7 +898,6 @@ export namespace Prisma {
     uid: string | null
     dt_cadastro: Date | null
     dt_atualizacao: Date | null
-    uid_cadastro: string | null
     uid_atualizacao: string | null
   }
 
@@ -911,7 +910,6 @@ export namespace Prisma {
     uid: string | null
     dt_cadastro: Date | null
     dt_atualizacao: Date | null
-    uid_cadastro: string | null
     uid_atualizacao: string | null
   }
 
@@ -924,7 +922,6 @@ export namespace Prisma {
     uid: number
     dt_cadastro: number
     dt_atualizacao: number
-    uid_cadastro: number
     uid_atualizacao: number
     _all: number
   }
@@ -947,7 +944,6 @@ export namespace Prisma {
     uid?: true
     dt_cadastro?: true
     dt_atualizacao?: true
-    uid_cadastro?: true
     uid_atualizacao?: true
   }
 
@@ -960,7 +956,6 @@ export namespace Prisma {
     uid?: true
     dt_cadastro?: true
     dt_atualizacao?: true
-    uid_cadastro?: true
     uid_atualizacao?: true
   }
 
@@ -973,7 +968,6 @@ export namespace Prisma {
     uid?: true
     dt_cadastro?: true
     dt_atualizacao?: true
-    uid_cadastro?: true
     uid_atualizacao?: true
     _all?: true
   }
@@ -1073,7 +1067,6 @@ export namespace Prisma {
     uid: string
     dt_cadastro: Date
     dt_atualizacao: Date
-    uid_cadastro: string
     uid_atualizacao: string | null
     _count: UsuarioCountAggregateOutputType | null
     _avg: UsuarioAvgAggregateOutputType | null
@@ -1105,7 +1098,6 @@ export namespace Prisma {
     uid?: boolean
     dt_cadastro?: boolean
     dt_atualizacao?: boolean
-    uid_cadastro?: boolean
     uid_atualizacao?: boolean
   }, ExtArgs["result"]["usuario"]>
 
@@ -1118,7 +1110,6 @@ export namespace Prisma {
     uid?: boolean
     dt_cadastro?: boolean
     dt_atualizacao?: boolean
-    uid_cadastro?: boolean
     uid_atualizacao?: boolean
   }, ExtArgs["result"]["usuario"]>
 
@@ -1131,7 +1122,6 @@ export namespace Prisma {
     uid?: boolean
     dt_cadastro?: boolean
     dt_atualizacao?: boolean
-    uid_cadastro?: boolean
     uid_atualizacao?: boolean
   }, ExtArgs["result"]["usuario"]>
 
@@ -1144,11 +1134,10 @@ export namespace Prisma {
     uid?: boolean
     dt_cadastro?: boolean
     dt_atualizacao?: boolean
-    uid_cadastro?: boolean
     uid_atualizacao?: boolean
   }
 
-  export type usuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "bairro" | "celular" | "uid" | "dt_cadastro" | "dt_atualizacao" | "uid_cadastro" | "uid_atualizacao", ExtArgs["result"]["usuario"]>
+  export type usuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "bairro" | "celular" | "uid" | "dt_cadastro" | "dt_atualizacao" | "uid_atualizacao", ExtArgs["result"]["usuario"]>
 
   export type $usuarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "usuario"
@@ -1162,7 +1151,6 @@ export namespace Prisma {
       uid: string
       dt_cadastro: Date
       dt_atualizacao: Date
-      uid_cadastro: string
       uid_atualizacao: string | null
     }, ExtArgs["result"]["usuario"]>
     composites: {}
@@ -1595,7 +1583,6 @@ export namespace Prisma {
     readonly uid: FieldRef<"usuario", 'String'>
     readonly dt_cadastro: FieldRef<"usuario", 'DateTime'>
     readonly dt_atualizacao: FieldRef<"usuario", 'DateTime'>
-    readonly uid_cadastro: FieldRef<"usuario", 'String'>
     readonly uid_atualizacao: FieldRef<"usuario", 'String'>
   }
     
@@ -1986,7 +1973,6 @@ export namespace Prisma {
     uid: 'uid',
     dt_cadastro: 'dt_cadastro',
     dt_atualizacao: 'dt_atualizacao',
-    uid_cadastro: 'uid_cadastro',
     uid_atualizacao: 'uid_atualizacao'
   };
 
@@ -2093,7 +2079,6 @@ export namespace Prisma {
     uid?: StringFilter<"usuario"> | string
     dt_cadastro?: DateTimeFilter<"usuario"> | Date | string
     dt_atualizacao?: DateTimeFilter<"usuario"> | Date | string
-    uid_cadastro?: StringFilter<"usuario"> | string
     uid_atualizacao?: StringNullableFilter<"usuario"> | string | null
   }
 
@@ -2106,7 +2091,6 @@ export namespace Prisma {
     uid?: SortOrder
     dt_cadastro?: SortOrder
     dt_atualizacao?: SortOrder
-    uid_cadastro?: SortOrder
     uid_atualizacao?: SortOrderInput | SortOrder
   }
 
@@ -2122,7 +2106,6 @@ export namespace Prisma {
     celular?: StringFilter<"usuario"> | string
     dt_cadastro?: DateTimeFilter<"usuario"> | Date | string
     dt_atualizacao?: DateTimeFilter<"usuario"> | Date | string
-    uid_cadastro?: StringFilter<"usuario"> | string
     uid_atualizacao?: StringNullableFilter<"usuario"> | string | null
   }, "id" | "email" | "uid">
 
@@ -2135,7 +2118,6 @@ export namespace Prisma {
     uid?: SortOrder
     dt_cadastro?: SortOrder
     dt_atualizacao?: SortOrder
-    uid_cadastro?: SortOrder
     uid_atualizacao?: SortOrderInput | SortOrder
     _count?: usuarioCountOrderByAggregateInput
     _avg?: usuarioAvgOrderByAggregateInput
@@ -2156,7 +2138,6 @@ export namespace Prisma {
     uid?: StringWithAggregatesFilter<"usuario"> | string
     dt_cadastro?: DateTimeWithAggregatesFilter<"usuario"> | Date | string
     dt_atualizacao?: DateTimeWithAggregatesFilter<"usuario"> | Date | string
-    uid_cadastro?: StringWithAggregatesFilter<"usuario"> | string
     uid_atualizacao?: StringNullableWithAggregatesFilter<"usuario"> | string | null
   }
 
@@ -2168,7 +2149,6 @@ export namespace Prisma {
     uid: string
     dt_cadastro?: Date | string
     dt_atualizacao?: Date | string
-    uid_cadastro: string
     uid_atualizacao?: string | null
   }
 
@@ -2181,7 +2161,6 @@ export namespace Prisma {
     uid: string
     dt_cadastro?: Date | string
     dt_atualizacao?: Date | string
-    uid_cadastro: string
     uid_atualizacao?: string | null
   }
 
@@ -2193,7 +2172,6 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     dt_cadastro?: DateTimeFieldUpdateOperationsInput | Date | string
     dt_atualizacao?: DateTimeFieldUpdateOperationsInput | Date | string
-    uid_cadastro?: StringFieldUpdateOperationsInput | string
     uid_atualizacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -2206,7 +2184,6 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     dt_cadastro?: DateTimeFieldUpdateOperationsInput | Date | string
     dt_atualizacao?: DateTimeFieldUpdateOperationsInput | Date | string
-    uid_cadastro?: StringFieldUpdateOperationsInput | string
     uid_atualizacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -2219,7 +2196,6 @@ export namespace Prisma {
     uid: string
     dt_cadastro?: Date | string
     dt_atualizacao?: Date | string
-    uid_cadastro: string
     uid_atualizacao?: string | null
   }
 
@@ -2231,7 +2207,6 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     dt_cadastro?: DateTimeFieldUpdateOperationsInput | Date | string
     dt_atualizacao?: DateTimeFieldUpdateOperationsInput | Date | string
-    uid_cadastro?: StringFieldUpdateOperationsInput | string
     uid_atualizacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -2244,7 +2219,6 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     dt_cadastro?: DateTimeFieldUpdateOperationsInput | Date | string
     dt_atualizacao?: DateTimeFieldUpdateOperationsInput | Date | string
-    uid_cadastro?: StringFieldUpdateOperationsInput | string
     uid_atualizacao?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -2314,7 +2288,6 @@ export namespace Prisma {
     uid?: SortOrder
     dt_cadastro?: SortOrder
     dt_atualizacao?: SortOrder
-    uid_cadastro?: SortOrder
     uid_atualizacao?: SortOrder
   }
 
@@ -2331,7 +2304,6 @@ export namespace Prisma {
     uid?: SortOrder
     dt_cadastro?: SortOrder
     dt_atualizacao?: SortOrder
-    uid_cadastro?: SortOrder
     uid_atualizacao?: SortOrder
   }
 
@@ -2344,7 +2316,6 @@ export namespace Prisma {
     uid?: SortOrder
     dt_cadastro?: SortOrder
     dt_atualizacao?: SortOrder
-    uid_cadastro?: SortOrder
     uid_atualizacao?: SortOrder
   }
 

@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { FirebaseModule } from './modules/firebase/firebase.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './modules/prisma/prisma.service';
+import cookieParser from 'cookie-parser';
 
 @Module({
   imports: [
@@ -15,4 +16,8 @@ import { PrismaService } from './modules/prisma/prisma.service';
   controllers: [],
   providers: [PrismaService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(cookieParser).forRoutes('*');
+  }
+}

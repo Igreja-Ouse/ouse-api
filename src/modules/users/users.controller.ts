@@ -34,7 +34,7 @@ export class UsersController {
   }
 
   @Put('update-roles')
-  @UseGuards(AuthGuard, RolesGuard('admin'))
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   async register(@Body() userDto: UpdateRolesDto) {
     return await this.usersService.updateRoles(userDto);

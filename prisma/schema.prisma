@@ -23,6 +23,5 @@ model usuario {
   uid String @unique
   dt_cadastro DateTime @default(now())
   dt_atualizacao DateTime @updatedAt
-  uid_cadastro String
   uid_atualizacao String?
 }
